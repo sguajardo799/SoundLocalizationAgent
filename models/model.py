@@ -33,29 +33,10 @@ class CNN_min(nn.Module):
         
         self.out = nn.Linear(in_features=32, out_features=5)
 
-    def _calculate_output_size(self, W, H): #Ws = (We - k_size + 2*pad)/stride #pad=0, stride=1
-        # Conv1
-        W = (W - 3 + 2*0)//1 + 1
-        H = (H - 3 + 2*0)//1 + 1
-        W, H = W // 2, H // 2
-
-        # Conv2
-        W = W - 3 + 1
-        H = H - 3 + 1
-        W, H = W // 2, H // 2
-
-        # Conv3
-        W = W - 3 + 1
-        H = H - 3 + 1
-        W, H = W // 2, H // 2
-
-        return int(W * H * 256)
-
     def forward(self, x:torch.Tensor):
         x = self.convs(x)
 
         x = self.flatten(x)
-        print(x.shape)
         x = self.dense1(x)
         x = self.out(x)       
         return x
